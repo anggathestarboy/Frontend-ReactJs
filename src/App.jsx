@@ -1,36 +1,21 @@
-import "./app.css";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 const App = () => {
-	const [id, setId] = useState(1);
-  const [car, setCar] = useState({});
+  let timer;
 
-	const onNext = () => {
-		const nextId = id + 1;
-		if (nextId > 10) {
-			return setId(1);
-		}
-
-		return setId(nextId);
-	}
-
-	const fetchCar = async () => {
-		const response = await fetch('https://64d358c767b2662bf3dc103e.mockapi.io/api/v1/cars/' + id);
-		const data = await response.json();
-		setCar(data);
-	}
-	
-// Akan dijalankan ketika pertama kali di-render dan setiap kali terdapat perubahan state id
+	// akan dijalankan ketika pertama kali di-render
 	useEffect(() => {
-		fetchCar();
-	}, [id]);
+		timer = setTimeout(() => {
+			alert("Hai");
+		}, 1000);
 
-  return (
-    <div>
-			<p>{ car.name }</p>
-			<button onClick={onNext}>Selanjutnya</button>
-    </div>
-  );
+		// akan dijalankan ketika komponen akan dihapus dari DOM
+		return () => {
+			clearTimeout(timer);
+		}
+	}, []);
+
+	// ...
 }
 
 export default App;
